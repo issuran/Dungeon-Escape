@@ -11,7 +11,8 @@ public class Player : MonoBehaviour {
     private bool _grounded = false;
     [SerializeField]
     private LayerMask _groundLayer;
-	// Use this for initialization
+    private bool resetJumpNeeded = false;
+
 	void Start () {
         _rigid = GetComponent<Rigidbody2D>();
     }
@@ -24,15 +25,28 @@ public class Player : MonoBehaviour {
         {
             _rigid.velocity = new Vector2(_rigid.velocity.x, _jumpForce);
             _grounded = false;
+            resetJumpNeeded = true;
+            StartCoroutine(ResetJumpNeededRoutine());
         }
 
         RaycastHit2D hitInfo = Physics2D.Raycast(transform.position, Vector2.down, 0.6f, _groundLayer.value);
         Debug.DrawRay(transform.position, Vector2.down * 0.6f, Color.green);
+
         if (hitInfo.collider != null)
         {
             Debug.Log("Hit: " + hitInfo.collider.name);
-            _grounded = true;
+
+            if (resetJumpNeeded == false)
+            {
+                _grounded = true;
+            }
         }
         _rigid.velocity = new Vector2(move, _rigid.velocity.y);
 	}
+
+    IEnumerator ResetJumpNeededRoutine()
+    {
+        yield return new WaitForSeconds(0.1f);
+        resetJumpNeeded = false;
+    }
 }
