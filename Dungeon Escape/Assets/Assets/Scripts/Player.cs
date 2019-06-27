@@ -5,11 +5,15 @@ using UnityEngine;
 public class Player : MonoBehaviour {
 
     private Rigidbody2D _rigid;
-    [SerializeField]
-    private float _jumpForce = 5.0f;
     private bool resetJumpNeeded = false;
 
-	void Start () {
+    [SerializeField]
+    private float _jumpForce = 5.0f;
+
+    [SerializeField]
+    private float _speed = 5.0f;
+    
+    void Start () {
         _rigid = GetComponent<Rigidbody2D>();
     }
 
@@ -28,7 +32,7 @@ public class Player : MonoBehaviour {
             StartCoroutine(ResetJumpNeededRoutine());
         }
 
-        _rigid.velocity = new Vector2(move, _rigid.velocity.y);
+        _rigid.velocity = new Vector2(move * _speed, _rigid.velocity.y);
     }
 
     bool IsGrounded()
