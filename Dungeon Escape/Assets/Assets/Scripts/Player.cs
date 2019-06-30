@@ -12,27 +12,44 @@ public class Player : MonoBehaviour {
 
     [SerializeField]
     private float _speed = 5.0f;
-    
+
+    private bool _grounded = false;
+
+    private PlayerAnimation _playerAnim;
+    private SpriteRenderer _playerSprite;
+    private SpriteRenderer _swordArcSprite;
+
     void Start () {
         _rigid = GetComponent<Rigidbody2D>();
+        _playerAnim = GetComponent<PlayerAnimation>();
+        _playerSprite = GetComponentInChildren<SpriteRenderer>();
+        _swordArcSprite = transform.GetChild(1).GetComponent<SpriteRenderer>();
     }
 
     // Update is called once per frame
     void Update() {
         Movement();
+        if (Input.GetMouseButtonDown(0) && IsGrounded() == true)
+        {
+            _playerAnim.Attack();
+        }
 	}
 
     void Movement()
     {
         float move = Input.GetAxisRaw("Horizontal");
+        _grounded = IsGrounded();
+        Flip(move);
 
         if (Input.GetKeyDown(KeyCode.Space) && IsGrounded())
         {
             _rigid.velocity = new Vector2(_rigid.velocity.x, _jumpForce);
             StartCoroutine(ResetJumpNeededRoutine());
+            _playerAnim.Jump(true);
         }
 
         _rigid.velocity = new Vector2(move * _speed, _rigid.velocity.y);
+        _playerAnim.Move(move);
     }
 
     bool IsGrounded()
@@ -46,10 +63,36 @@ public class Player : MonoBehaviour {
 
             if (resetJumpNeeded == false)
             {
+                _playerAnim.Jump(false);
                 return true;
             }
         }
         return false;
+    }
+
+    void Flip(float move)
+    {
+        if (move > 0)
+        {
+            _playerSprite.flipX = false;
+            _swordArcSprite.flipX = false;
+            _swordArcSprite.flipY = false;
+
+            Vector3 newPos = _swordArcSprite.transform.localPosition;
+            newPos.x = 1.01f;
+            _swordArcSprite.transform.localPosition = newPos;
+        }
+        else if (move < 0)
+        {
+            _playerSprite.flipX = true;
+            _swordArcSprite.flipX = true;
+            _swordArcSprite.flipY = true;
+
+            Vector3 newPos = _swordArcSprite.transform.localPosition;
+            newPos.x = -1.01f;
+            _swordArcSprite.transform.localPosition = newPos;
+        }
+
     }
 
     IEnumerator ResetJumpNeededRoutine()
