@@ -2,14 +2,21 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Enemy : MonoBehaviour {
-    public int health;
-    public int speed;
-    public int gems;
+public abstract class Enemy : MonoBehaviour {
+    [SerializeField]
+    protected int health;
+    [SerializeField]
+    protected int speed;
+    [SerializeField]
+    protected int gems;
 
-    public void Attack()
+    [SerializeField]
+    protected Transform pointA, pointB;
+
+    public virtual void Attack()
     {
-
+        Debug.Log("Common attack");
     }
 
+    public abstract void Update();
 }
