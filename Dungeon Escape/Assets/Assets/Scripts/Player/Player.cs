@@ -59,8 +59,6 @@ public class Player : MonoBehaviour {
 
         if (hitInfo.collider != null)
         {
-            Debug.Log("Hit: " + hitInfo.collider.name);
-
             if (resetJumpNeeded == false)
             {
                 _playerAnim.Jump(false);
