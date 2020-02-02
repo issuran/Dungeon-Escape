@@ -9,8 +9,9 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 2d5751a2c961df945a34295ccf5e576d, type: 3}
-  m_Name: Prefab brush
+  m_Name: Diamond_brush
   m_EditorClassIdentifier: 
-  m_Prefabs: []
+  m_Prefabs:
+  - {fileID: 1560339597460024, guid: 8ed5193b3ed68814eb7f733d6b877160, type: 2}
   m_PerlinScale: 0.5
   m_Z: 0
