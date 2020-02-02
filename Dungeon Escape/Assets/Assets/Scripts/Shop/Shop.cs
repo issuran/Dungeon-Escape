@@ -62,7 +62,7 @@ public class Shop : MonoBehaviour {
                 GameManager.Instance.HasKeyToCastle = true;
                 Debug.Log("Bought the key"+ GameManager.Instance.HasKeyToCastle);
             }
-            _player.diamonds -= currentItemCost;
+            _player.SubtractGems(currentItemCost);
             shopPanel.SetActive(false);
         } else
         {

@@ -23,6 +23,7 @@ public class Player : MonoBehaviour, IDamageable {
     public int diamonds;
 
     void Start () {
+        Health = 4;
         _rigid = GetComponent<Rigidbody2D>();
         _playerAnim = GetComponent<PlayerAnimation>();
         _playerSprite = GetComponentInChildren<SpriteRenderer>();
@@ -105,6 +106,28 @@ public class Player : MonoBehaviour, IDamageable {
 
     public void Damage()
     {
+        if (Health < 1)
+        {
+            return;
+        }
+        Health--;
+        UIManager.Instance.UpdateLives(Health);
 
+        if (Health < 1)
+        {
+            _playerAnim.Death();
+        }
+    }
+
+    public void AddGems(int amount)
+    {
+        diamonds += amount;
+        UIManager.Instance.UpdateGemCount(diamonds);
+    }
+
+    public void SubtractGems(int amount)
+    {
+        diamonds -= amount;
+        UIManager.Instance.UpdateGemCount(diamonds);
     }
 }
