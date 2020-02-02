@@ -20,6 +20,7 @@ public class Player : MonoBehaviour, IDamageable {
     private SpriteRenderer _swordArcSprite;
 
     public int Health { get; set; }
+    public int diamonds;
 
     void Start () {
         _rigid = GetComponent<Rigidbody2D>();

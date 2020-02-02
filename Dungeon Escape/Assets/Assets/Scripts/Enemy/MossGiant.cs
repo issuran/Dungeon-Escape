@@ -15,6 +15,8 @@ public class MossGiant : Enemy, IDamageable {
 
     public void Damage()
     {
+        if (IsDead == true) return;
+
         Health -= 1;
         base.anim.SetTrigger("Hit");
         base.isHit = true;
@@ -24,6 +26,8 @@ public class MossGiant : Enemy, IDamageable {
         {
             IsDead = true;
             anim.SetTrigger("Death");
+            GameObject diamond = Instantiate(diamondPrefab, transform.position, Quaternion.identity) as GameObject;
+            diamond.GetComponent<Diamond>().gems = base.gems;
             //Destroy(this.gameObject);
         }
     }
